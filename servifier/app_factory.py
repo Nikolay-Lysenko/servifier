@@ -10,7 +10,8 @@ from typing import List
 
 from flask import Flask
 
-from servifier.servification import servify
+from servifier import constants
+from servifier.servification import servify, report_error
 
 
 HandleSpec = namedtuple('HandleSpec', ['func', 'path', 'validator'])
@@ -37,4 +38,7 @@ def create_app(specs: List[HandleSpec]) -> Flask:
         func_name = handle_spec.path.replace('/', '_')
         servified_func = servify(handle_spec.func, func_name)
         app.route(handle_spec.path, methods=['POST'])(servified_func)
+    app.errorhandler(constants.NOT_FOUND)(
+        lambda _: report_error('no such handle', constants.NOT_FOUND)
+    )
     return app
