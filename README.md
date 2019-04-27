@@ -5,6 +5,7 @@
 It is an easy-to-use tool for making web service with API from your own Python functions.
 
 The list of supported and planned features is as follows:
+- [x] Fault tolerance
 - [x] Concise error messages for end user 
 - [ ] Customizable requests validation
 - [ ] Authentication
