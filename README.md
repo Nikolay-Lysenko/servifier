@@ -6,8 +6,8 @@ It is an easy-to-use tool for making web service with API from your own Python f
 
 The list of supported and planned features is as follows:
 - [x] Fault tolerance
+- [x] Customizable requests validation
 - [x] Concise error messages for end user 
-- [ ] Customizable requests validation
 - [ ] Authentication
 
 ## Minimal Example
@@ -48,8 +48,66 @@ Run this script. A demo server starts and after that you can send requests to it
 
 ## Installation
 
-To be continued.
+A stable version of the package can be collected from PyPI:
+
+```pip install servifier```
 
 ## Tips on Usage
 
-To be continued.
+#### Input Data Validation
+
+It is possible to configure `servifier` so that requests with invalid data are rejected with a proper error code before your function is called.
+
+Above example with a simple service can be modified in the following manner:
+
+```python
+from servifier import HandleSpec, create_app
+from servifier.validation import IntegerField
+
+
+def add_numbers(first: int, second: int) -> int:
+    """Add two numbers."""
+    return first + second
+
+
+def subtract_numbers(first: int, second: int) -> int:
+    """Subtract two numbers."""
+    return first - second
+    
+    
+class IntegerPair:
+    """A pair of two integers."""
+    
+    first = IntegerField(required=True)
+    second = IntegerField(required=True)
+    
+    def __init__(self, first: int, second: int):
+        """Initialize an instance with parameters validation."""
+        self.first = first
+        self.second = second
+
+
+handle_spec_for_adding = HandleSpec(
+    add_numbers, '/add', IntegerPair
+)
+handle_spec_for_subtraction = HandleSpec(
+    subtract_numbers, '/subtract', IntegerPair
+)
+
+handle_specs = [handle_spec_for_adding, handle_spec_for_subtraction]
+
+app = create_app(handle_specs)
+app.run()
+```
+
+Behavior of the service is demonstrated below:
+
+```bash
+>>> curl -X POST -H "Content-Type: application/json" -d '{"first": "1", "second": 3}' http://127.0.0.1:5000/add
+{"error":"Invalid Request","status":422}
+```
+
+Comparing to the minimal example, this service returns "Invalid Request" status instead of "Internal Error" status which is harder to debug for end user.
+
+If you need more info about how this example works, read about [Python descriptors](https://www.codevoila.com/post/69/python-descriptors-example).
+
