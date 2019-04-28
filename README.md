@@ -4,11 +4,11 @@
 
 It is an easy-to-use tool for making web service with API from your own Python functions.
 
-The list of supported and planned features is as follows:
-- [x] Fault tolerance
-- [x] Customizable requests validation
-- [x] Concise error messages for end user 
-- [x] Authentication
+The list of the features is as follows:
+* fault tolerance,
+* customizable requests validation,
+* concise error messages for end user,
+* authentication.
 
 ## Minimal Example
 
@@ -53,6 +53,40 @@ A stable version of the package can be collected from PyPI:
 ```pip install servifier```
 
 ## Tips on Usage
+
+#### Deployment on a Production-Ready Server
+
+In the above minimal example, the development server provided by `Flask` is used. It is not suitable for production usage.
+
+There are [plenty of ways](http://flask.pocoo.org/docs/1.0/deploying/) to deploy a Flask application on a production server. For example, you can use [Waitress](http://flask.pocoo.org/docs/1.0/tutorial/deploy/#run-with-a-production-server) or uWSGI.
+
+Let us discuss uWSGI a bit more. You can create `uwsgi.ini` config:
+
+```
+[uwsgi]
+# {Python module}:{Flask app from there}
+module = simple_service:app
+# If it is true, there is a master process, not only workers.
+master = true
+# Number of workers.
+processes = 4
+# Host and port for API, '0.0.0.0' means to use web address.
+http = 0.0.0.0:7070
+# Directory with code to be imported.
+pythonpath = ./venv/lib/python3.6/site-packages/
+# If it is not set, logs are printed. If it is set, logs are written to this file.
+logto = /tmp/servifier.log
+```
+
+To use it, you need to install `uWSGI` Python package:
+```
+pip install uwsgi
+```
+
+To start a server, run:
+```
+uwsgi --ini uwsgi.ini
+```
 
 #### Input Data Validation
 
@@ -113,7 +147,7 @@ If you need more info about how this example works, read about [Python descripto
 
 #### Authentication
 
-It is possible to deny requests that does not include login and token where proper value of token is defined by login and hash salt.
+It is possible to deny requests that does not include login and token where proper value of token is defined by login and arbitrary salt.
 
 Minimal example with authentication enabled looks like this:
 
@@ -145,3 +179,8 @@ app.run()
 ```
 
 For a particular login, you can generate its token with `servifier.auth.generate_token` function and tell this value to someone sending requests under this login. JSON attachment from a request must include two additional fields ('login' and 'token') besides fields with arguments for a Python function.
+
+```bash
+>>> curl -X POST -H "Content-Type: application/json" -d '{"login": "a", "token": "6491cacf01b2e1c6d08a5609d2f570ea57d71ae7f06e0391276d70d935d29aa51888d566751aa36dc5e12e18da693ece36427c167e2a7a67e48aca8928ba3979", "first": 1, "second": 3}' http://127.0.0.1:5000/subtract
+{"result":-2,"status":200}
+```
