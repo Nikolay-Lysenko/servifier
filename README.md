@@ -8,7 +8,7 @@ The list of supported and planned features is as follows:
 - [x] Fault tolerance
 - [x] Customizable requests validation
 - [x] Concise error messages for end user 
-- [ ] Authentication
+- [x] Authentication
 
 ## Minimal Example
 
@@ -104,10 +104,44 @@ Behavior of the service is demonstrated below:
 
 ```bash
 >>> curl -X POST -H "Content-Type: application/json" -d '{"first": "1", "second": 3}' http://127.0.0.1:5000/add
-{"error":"Invalid Request","status":422}
+{"error":"Invalid Request: check your JSON","status":422}
 ```
 
 Comparing to the minimal example, this service returns "Invalid Request" status instead of "Internal Error" status which is harder to debug for end user.
 
 If you need more info about how this example works, read about [Python descriptors](https://www.codevoila.com/post/69/python-descriptors-example).
 
+#### Authentication
+
+It is possible to deny requests that does not include login and token where proper value of token is defined by login and hash salt.
+
+Minimal example with authentication enabled looks like this:
+
+```python
+from servifier import HandleSpec, create_app
+
+
+def add_numbers(first: int, second: int) -> int:
+    """Add two numbers."""
+    return first + second
+
+
+def subtract_numbers(first: int, second: int) -> int:
+    """Subtract two numbers."""
+    return first - second
+
+
+handle_spec_for_adding = HandleSpec(
+    add_numbers, '/add', auth_salt='abcd'
+)
+handle_spec_for_subtraction = HandleSpec(
+    subtract_numbers, '/subtract', auth_salt='1234'
+)
+
+handle_specs = [handle_spec_for_adding, handle_spec_for_subtraction]
+
+app = create_app(handle_specs)
+app.run()
+```
+
+For a particular login, you can generate its token with `servifier.auth.generate_token` function and tell this value to someone sending requests under this login. JSON attachment from a request must include two additional fields ('login' and 'token') besides fields with arguments for a Python function.

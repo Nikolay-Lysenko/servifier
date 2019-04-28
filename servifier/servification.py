@@ -11,6 +11,7 @@ from typing import Tuple, Dict, Callable, Optional, Any
 from flask import request, jsonify
 
 from servifier import constants
+from servifier.auth import check_auth
 from servifier.utils import report_error
 
 
@@ -60,6 +61,13 @@ def servify(handle_spec: 'servifier.HandleSpec') -> Callable:
             return report_error('can not parse JSON', constants.BAD_REQUEST)
         if data is None:
             return report_error('empty JSON', constants.BAD_REQUEST)
+
+        allowed = check_auth(data, handle_spec.auth_salt)
+        if not allowed:
+            return report_error('check login and token', constants.FORBIDDEN)
+        if handle_spec.auth_salt is not None:
+            data.pop('login')
+            data.pop('token')
 
         any_errors = validate_request_data(data, handle_spec.validator_class)
         if any_errors:
