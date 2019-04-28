@@ -15,7 +15,7 @@ The list of supported and planned features is as follows:
 Suppose that you have a file named `simple_service.py` that looks like this:
 
 ```python
-from servifier.app_factory import HandleSpec, create_app
+from servifier import HandleSpec, create_app
 
 
 def add_numbers(first: int, second: int) -> int:
