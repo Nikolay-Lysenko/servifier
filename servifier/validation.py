@@ -48,7 +48,7 @@ class BaseTypedField(BaseField):
     def __set__(self, instance: Any, value: Any) -> None:
         """Check that a value is in accordance with instance settings."""
         super().__set__(instance, value)
-        if value and not isinstance(value, self.field_type):
+        if value is not None and not isinstance(value, self.field_type):
             raise ValueError(
                 f"Value {value} has type {type(value)}, "
                 f"but {self.field_type} was expected."

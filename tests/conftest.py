@@ -57,3 +57,20 @@ def sample_apartment_prices_request() -> Dict[str, Any]:
         'distance_to_underground': 300
     }
     return request
+
+
+def failing_func(first: int, second: int) -> None:
+    """Fail."""
+    raise ValueError('{} {}'.format(first, second))
+
+
+@pytest.fixture()
+def simple_broken_app_client() -> FlaskClient:
+    """Create client for demo Flask app that fails internally."""
+    handle_spec = HandleSpec(
+        failing_func,
+        '/fail'
+    )
+    app = create_app([handle_spec])
+    client = app.test_client()
+    yield client
