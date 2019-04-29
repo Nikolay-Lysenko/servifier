@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/Nikolay-Lysenko/servifier.svg?branch=master)](https://travis-ci.org/Nikolay-Lysenko/servifier)
 [![codecov](https://codecov.io/gh/Nikolay-Lysenko/servifier/branch/master/graph/badge.svg)](https://codecov.io/gh/Nikolay-Lysenko/servifier)
 [![Maintainability](https://api.codeclimate.com/v1/badges/b9203957727d2ea2d808/maintainability)](https://codeclimate.com/github/Nikolay-Lysenko/servifier/maintainability)
+[![PyPI version](https://badge.fury.io/py/servifier.svg)](https://badge.fury.io/py/servifier)
 
 # Servifier
 

@@ -27,7 +27,7 @@ setup(
     author='Nikolay Lysenko',
     author_email='nikolay-lysenco@yandex.ru',
     license='MIT',
-    keywords='mle api web_service apify',
+    keywords='web_service api_maker apify ml_engineering model_to_production',
     packages=find_packages(exclude=['tests', 'docs']),
     python_requires='>=3.6',
     install_requires=['Flask']
