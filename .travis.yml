@@ -8,6 +8,7 @@ python:
 install:
   - pip install -r requirements/test.txt
   - pip install .
+  - export PYTHONPATH="."  # No data is collected by `coverage` without this.
 
 branches:
   only:
