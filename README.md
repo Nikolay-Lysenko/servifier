@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/Nikolay-Lysenko/servifier.svg?branch=master)](https://travis-ci.org/Nikolay-Lysenko/servifier)
+[![codecov](https://codecov.io/gh/Nikolay-Lysenko/servifier/branch/master/graph/badge.svg)](https://codecov.io/gh/Nikolay-Lysenko/servifier)
+[![Maintainability](https://api.codeclimate.com/v1/badges/b9203957727d2ea2d808/maintainability)](https://codeclimate.com/github/Nikolay-Lysenko/servifier/maintainability)
+
 # Servifier
 
 ## Overview
@@ -54,7 +58,7 @@ A stable version of the package can be collected from PyPI:
 
 ## Tips on Usage
 
-#### Deployment on a Production-Ready Server
+#### Deployment on a Production Server
 
 In the above minimal example, the development server provided by `Flask` is used. It is not suitable for production usage.
 
@@ -83,16 +87,18 @@ To use it, you need to install `uWSGI` Python package:
 pip install uwsgi
 ```
 
-To start a server, run:
+To start a production server, delete `app.run()` line from `simple_service.py` (it launches demo server) and run:
 ```
 uwsgi --ini uwsgi.ini
 ```
+
+It may be enough to have just uWSGI. However, you can also add Nginx in front of uWSGI as a load balancer and a reverse proxy.
 
 #### Input Data Validation
 
 It is possible to configure `servifier` so that requests with invalid data are rejected with a proper error code before your function is called.
 
-Above example with a simple service can be modified in the following manner:
+The minimal example with a simple service can be modified in the following manner:
 
 ```python
 from servifier import HandleSpec, create_app
