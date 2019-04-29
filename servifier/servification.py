@@ -35,7 +35,7 @@ def validate_request_data(
         _ = validator_class(**data)
         return False
     except TypeError:
-        logging.exception('Unsupported extra arguments: ')
+        logging.exception('Wrong number of arguments: ')
         return True
     except:
         logging.exception('Arguments validation failed: ')
@@ -59,7 +59,7 @@ def servify(handle_spec: 'servifier.HandleSpec') -> Callable:
         data, any_errors = get_request_data()
         if any_errors:
             return report_error('can not parse JSON', constants.BAD_REQUEST)
-        if data is None:
+        if not data:
             return report_error('empty JSON', constants.BAD_REQUEST)
 
         allowed = check_auth(data, handle_spec.auth_salt)
