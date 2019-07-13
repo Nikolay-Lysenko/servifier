@@ -20,9 +20,10 @@ with open(os.path.join(current_dir, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='servifier',
-    version='0.1.0',
+    version='0.1.1',
     description=description,
     long_description=long_description,
+    long_description_content_type='text/markdown',
     url='https://github.com/Nikolay-Lysenko/servifier',
     author='Nikolay Lysenko',
     author_email='nikolay-lysenco@yandex.ru',
