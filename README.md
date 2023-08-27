@@ -15,6 +15,8 @@ The list of the features is as follows:
 * concise error messages for end user,
 * authentication.
 
+As of 2023-08-27, [FastAPI](https://github.com/tiangolo/fastapi) is a way more advanced alternative to this package. 
+
 ## Minimal Example
 
 Suppose that you have a file named `simple_service.py` that looks like this:
