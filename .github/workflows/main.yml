@@ -27,7 +27,6 @@ jobs:
         pip install -r requirements/test.txt
     - name: Test with Pytest
       run: pytest --cov=servifier --cov-config .coveragerc --cov-report=xml
-    - name: Create and upload Codecov report
-      uses: codecov/codecov-action@v2
-      with:
-        fail_ci_if_error: true
+    - name: Upload coverage report to Code Climate
+      uses: paambaati/codeclimate-action@v9.0.0
+
