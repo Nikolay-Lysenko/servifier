@@ -29,4 +29,6 @@ jobs:
       run: pytest --cov=servifier --cov-config .coveragerc --cov-report=xml
     - name: Upload coverage report to Code Climate
       uses: paambaati/codeclimate-action@v9.0.0
+      env:
+        CC_TEST_REPORTER_ID: 1b01f1376571426e6f792267a07871b57834b1e250e9352eb615d0a5b45a03d9
 
