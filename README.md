@@ -1,5 +1,5 @@
 [![Build Status](https://github.com/Nikolay-Lysenko/servifier/actions/workflows/main.yml/badge.svg)](https://github.com/Nikolay-Lysenko/servifier/actions/workflows/main.yml)
-[![codecov](https://codecov.io/gh/Nikolay-Lysenko/servifier/branch/master/graph/badge.svg)](https://codecov.io/gh/Nikolay-Lysenko/servifier)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/b9203957727d2ea2d808/test_coverage)](https://codeclimate.com/github/Nikolay-Lysenko/servifier/test_coverage)
 [![Maintainability](https://api.codeclimate.com/v1/badges/b9203957727d2ea2d808/maintainability)](https://codeclimate.com/github/Nikolay-Lysenko/servifier/maintainability)
 [![PyPI version](https://badge.fury.io/py/servifier.svg)](https://badge.fury.io/py/servifier)
 
